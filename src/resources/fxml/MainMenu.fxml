@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="682.0" prefWidth="937.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
+   <BorderPane prefHeight="682.0" prefWidth="937.0" style="-fx-background-color: white; -fx-border-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <top>
+         <AnchorPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <HBox alignment="CENTER_RIGHT" layoutX="378.0" layoutY="-2.0" prefHeight="108.0" prefWidth="935.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="btnMain" mnemonicParsing="false" onAction="#mainAct" styleClass="btnCustom" stylesheets="@../Styles/button.css" text="Home">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnAbout" mnemonicParsing="false" onAction="#aboutAct" styleClass="btnCustom" stylesheets="@../Styles/button.css" text="About">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnPrice" mnemonicParsing="false" onAction="#priceAct" styleClass="btnCustom" stylesheets="@../Styles/button.css" text="Price">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnContact" mnemonicParsing="false" onAction="#contactAct" styleClass="btnCustom" stylesheets="@../Styles/button.css" text="Contact" textAlignment="JUSTIFY">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnMember" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#memberAct" styleClass="btnCustom" stylesheets="@../Styles/button.css" text="Memberships" textAlignment="JUSTIFY">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Label layoutX="21.0" layoutY="37.0" text="PITBULL'Z GYM">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </AnchorPane>
+      </top>
+      <center>
+         <StackPane fx:id="mainPane" alignment="CENTER" BorderPane.alignment="CENTER">
+            <children>
+               <Pane maxHeight="471.0" maxWidth="733.0" prefHeight="471.0" prefWidth="733.0">
+                  <children>
+                     <ImageView fitHeight="162.0" fitWidth="137.0" layoutX="46.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../Icons/img_2.png" />
+                        </image>
+                     </ImageView>
+                     <ImageView fitHeight="231.0" fitWidth="138.0" layoutX="38.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../Icons/img_3.png" />
+                        </image>
+                     </ImageView>
+                     <Label layoutX="200.0" text="BUILD YOUR BEST">
+                        <font>
+                           <Font name="System Bold" size="36.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="304.0" layoutY="53.0" text="BODY">
+                        <font>
+                           <Font name="System Bold" size="36.0" />
+                        </font>
+                     </Label>
+                     <ImageView fitHeight="305.0" fitWidth="453.0" layoutX="280.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../Icons/img_1.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+               </Pane>
+            </children>
+         </StackPane>
+      </center>
+   </BorderPane>
+</AnchorPane>
