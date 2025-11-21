@@ -66,14 +66,14 @@
                <children>
                   <TableView fx:id="memberTable" style="-fx-background-radius: 8;" VBox.vgrow="ALWAYS">
                      <columns>
-                        <TableColumn fx:id="colID" prefWidth="60.0" text="ID" />
-                        <TableColumn fx:id="colName" prefWidth="180.0" text="Member Name" />
-                        <TableColumn fx:id="colPhone" prefWidth="120.0" text="Phone" />
-                        <TableColumn fx:id="colPlan" prefWidth="100.0" text="Plan Type" />
-                        <TableColumn fx:id="colStartDate" prefWidth="110.0" text="Start Date" />
-                        <TableColumn fx:id="colEndDate" prefWidth="110.0" text="End Date" />
-                        <TableColumn fx:id="colStatus" prefWidth="90.0" text="Status" />
-                        <TableColumn fx:id="colAction" prefWidth="140.0" text="Action" />
+                        <TableColumn fx:id="colID" minWidth="80.0" prefWidth="100.0" text="Member ID" />
+                        <TableColumn fx:id="colName" minWidth="120.0" prefWidth="180.0" text="Member Name" />
+                        <TableColumn fx:id="colPhone" minWidth="100.0" prefWidth="120.0" text="Phone" />
+                        <TableColumn fx:id="colPlan" minWidth="80.0" prefWidth="100.0" text="Plan Type" />
+                        <TableColumn fx:id="colStartDate" minWidth="90.0" prefWidth="110.0" text="Start Date" />
+                        <TableColumn fx:id="colEndDate" minWidth="90.0" prefWidth="110.0" text="End Date" />
+                        <TableColumn fx:id="colStatus" minWidth="70.0" prefWidth="90.0" text="Status" />
+                        <TableColumn fx:id="colAction" minWidth="120.0" prefWidth="140.0" text="Action" />
                      </columns>
                   </TableView>
 
