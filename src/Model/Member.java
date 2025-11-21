@@ -12,6 +12,7 @@ public class Member {
     private final ObjectProperty<LocalDate> startDate;
     private final ObjectProperty<LocalDate> endDate;
     private final StringProperty status;
+    private final IntegerProperty membershipCount; // How many times user has been a member
 
     // Constructor
     public Member(int id, String name, String phone, String planType,
@@ -23,6 +24,20 @@ public class Member {
         this.startDate = new SimpleObjectProperty<>(startDate);
         this.endDate = new SimpleObjectProperty<>(endDate);
         this.status = new SimpleStringProperty(calculateStatus(endDate));
+        this.membershipCount = new SimpleIntegerProperty(1); // Default to 1
+    }
+    
+    // Constructor with membership count
+    public Member(int id, String name, String phone, String planType,
+                  LocalDate startDate, LocalDate endDate, int membershipCount) {
+        this.id = new SimpleIntegerProperty(id);
+        this.name = new SimpleStringProperty(name);
+        this.phone = new SimpleStringProperty(phone);
+        this.planType = new SimpleStringProperty(planType);
+        this.startDate = new SimpleObjectProperty<>(startDate);
+        this.endDate = new SimpleObjectProperty<>(endDate);
+        this.status = new SimpleStringProperty(calculateStatus(endDate));
+        this.membershipCount = new SimpleIntegerProperty(membershipCount);
     }
 
     // Calculate status based on end date
@@ -121,6 +136,29 @@ public class Member {
     // Update status when end date changes
     public void updateStatus() {
         this.status.set(calculateStatus(this.endDate.get()));
+    }
+    
+    // Getters and Setters for membership count
+    public int getMembershipCount() {
+        return membershipCount.get();
+    }
+    
+    public void setMembershipCount(int count) {
+        this.membershipCount.set(count);
+    }
+    
+    public IntegerProperty membershipCountProperty() {
+        return membershipCount;
+    }
+    
+    // Increment membership count (when renewing)
+    public void incrementMembershipCount() {
+        membershipCount.set(membershipCount.get() + 1);
+    }
+    
+    // Generate unique member ID string
+    public String getMemberIdString() {
+        return String.format("PBG-%04d", id.get());
     }
 
     @Override

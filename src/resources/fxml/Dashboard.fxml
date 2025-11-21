@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,7 +21,7 @@
         </ImageView>
 
         <!-- Main Content -->
-        <VBox alignment="TOP_CENTER" spacing="30.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
+        <VBox alignment="TOP_CENTER" spacing="25.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
             <children>
                 <!-- Header -->
                 <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 15; -fx-padding: 20;">
@@ -49,172 +50,136 @@
                     </children>
                 </HBox>
 
-                <!-- Statistics Cards -->
-                <HBox alignment="CENTER" spacing="25.0" VBox.vgrow="ALWAYS">
+                <!-- Two Column Layout for Modules -->
+                <HBox alignment="TOP_CENTER" spacing="25.0" VBox.vgrow="ALWAYS">
                     <children>
-                        <!-- Visitors Card -->
-                        <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #4CAF50, #45a049); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                        <!-- Daily Visitor System Module -->
+                        <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS" minWidth="300.0" maxWidth="600.0">
                             <children>
-                                <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="👥">
-                                    <font>
-                                        <Font size="48.0" />
-                                    </font>
-                                </Label>
-                                <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="VISITORS TODAY">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="visitorCountLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="0">
-                                    <font>
-                                        <Font name="System Bold" size="42.0" />
-                                    </font>
-                                </Label>
-                                <Label style="-fx-text-fill: rgba(255,255,255,0.8);" text="People">
-                                    <font>
-                                        <Font size="13.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </VBox>
-
-                        <!-- Products Sold Card -->
-                        <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #2196F3, #1976D2); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
-                            <children>
-                                <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="🛍️">
-                                    <font>
-                                        <Font size="48.0" />
-                                    </font>
-                                </Label>
-                                <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="PRODUCTS SOLD">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="productsSoldLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="0">
-                                    <font>
-                                        <Font name="System Bold" size="42.0" />
-                                    </font>
-                                </Label>
-                                <Label style="-fx-text-fill: rgba(255,255,255,0.8);" text="Items">
-                                    <font>
-                                        <Font size="13.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </VBox>
-
-                        <!-- Daily Income Card -->
-                        <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #FF9800, #F57C00); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
-                            <children>
-                                <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="💰">
-                                    <font>
-                                        <Font size="48.0" />
-                                    </font>
-                                </Label>
-                                <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="DAILY INCOME">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="dailyIncomeLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
-                                    <font>
-                                        <Font name="System Bold" size="36.0" />
-                                    </font>
-                                </Label>
-                                <Label style="-fx-text-fill: rgba(255,255,255,0.8);" text="Rupiah">
-                                    <font>
-                                        <Font size="13.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-
-                <!-- Action Buttons -->
-                <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 15; -fx-padding: 25;">
-                    <children>
-                        <Button fx:id="btnAddVisitor" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 35 15 35; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 15;" text="➕ Add Visitor">
-                            <font>
-                                <Font name="System Bold" size="15.0" />
-                            </font>
-                        </Button>
-
-                        <Button fx:id="btnAddProduct" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 35 15 35; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 15;" text="🛒 Add Product Sale">
-                            <font>
-                                <Font name="System Bold" size="15.0" />
-                            </font>
-                        </Button>
-
-                        <Button fx:id="btnAddIncome" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 35 15 35; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 15;" text="💵 Add Custom Income">
-                            <font>
-                                <Font name="System Bold" size="15.0" />
-                            </font>
-                        </Button>
-                    </children>
-                </HBox>
-
-                <!-- Summary Info -->
-                <HBox alignment="CENTER" spacing="40.0" style="-fx-background-color: rgba(47, 125, 50, 0.1); -fx-background-radius: 12; -fx-padding: 20;">
-                    <children>
-                        <VBox alignment="CENTER" spacing="5.0">
-                            <children>
-                                <Label style="-fx-text-fill: #2f7d32; -fx-font-weight: bold;" text="Weekly Visitors">
-                                    <font>
-                                        <Font size="13.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="weeklyVisitorsLabel" style="-fx-text-fill: #2f7d32; -fx-font-weight: bold;" text="0">
+                                <Label style="-fx-text-fill: #4CAF50; -fx-font-weight: bold; -fx-font-size: 22;" text="👥 Daily Visitor System">
                                     <font>
                                         <Font name="System Bold" size="22.0" />
                                     </font>
                                 </Label>
+                                
+                                <!-- Visitor Count Display -->
+                                <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #4CAF50, #45a049); -fx-background-radius: 15; -fx-padding: 25;">
+                                    <children>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Daily Visitors">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="dailyVisitorCountLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="0">
+                                            <font>
+                                                <Font name="System Bold" size="48.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                                
+                                <!-- Visitor Income Display -->
+                                <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #2196F3, #1976D2); -fx-background-radius: 15; -fx-padding: 25;">
+                                    <children>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Daily Visitor Income">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="dailyVisitorIncomeLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
+                                            <font>
+                                                <Font name="System Bold" size="32.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                                
+                                <!-- Add Visitor Button -->
+                                <Button fx:id="btnAddDailyVisitor" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="➕ Add Daily Visitor">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Button>
+                                
+                                <Label style="-fx-text-fill: #666666; -fx-font-size: 12;" text="Each visitor adds Rp 10,000">
+                                    <font>
+                                        <Font size="12.0" />
+                                    </font>
+                                </Label>
                             </children>
                         </VBox>
 
-                        <VBox alignment="CENTER" spacing="5.0">
+                        <!-- Beverage Sales System Module -->
+                        <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS" minWidth="300.0" maxWidth="600.0">
                             <children>
-                                <Label style="-fx-text-fill: #2f7d32; -fx-font-weight: bold;" text="Weekly Income">
-                                    <font>
-                                        <Font size="13.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="weeklyIncomeLabel" style="-fx-text-fill: #2f7d32; -fx-font-weight: bold;" text="Rp 0">
+                                <Label style="-fx-text-fill: #FF9800; -fx-font-weight: bold; -fx-font-size: 22;" text="🥤 Beverage Sales System">
                                     <font>
                                         <Font name="System Bold" size="22.0" />
                                     </font>
                                 </Label>
-                            </children>
-                        </VBox>
-
-                        <VBox alignment="CENTER" spacing="5.0">
-                            <children>
-                                <Label style="-fx-text-fill: #2f7d32; -fx-font-weight: bold;" text="Monthly Visitors">
-                                    <font>
-                                        <Font size="13.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="monthlyVisitorsLabel" style="-fx-text-fill: #2f7d32; -fx-font-weight: bold;" text="0">
-                                    <font>
-                                        <Font name="System Bold" size="22.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </VBox>
-
-                        <VBox alignment="CENTER" spacing="5.0">
-                            <children>
-                                <Label style="-fx-text-fill: #2f7d32; -fx-font-weight: bold;" text="Monthly Income">
-                                    <font>
-                                        <Font size="13.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="monthlyIncomeLabel" style="-fx-text-fill: #2f7d32; -fx-font-weight: bold;" text="Rp 0">
-                                    <font>
-                                        <Font name="System Bold" size="22.0" />
-                                    </font>
-                                </Label>
+                                
+                                <!-- Beverage Revenue Display -->
+                                <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #FF9800, #F57C00); -fx-background-radius: 15; -fx-padding: 25;">
+                                    <children>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Beverage Revenue">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="beverageRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
+                                            <font>
+                                                <Font name="System Bold" size="32.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                                
+                                <!-- Beverages Sold Display -->
+                                <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #9C27B0, #7B1FA2); -fx-background-radius: 15; -fx-padding: 25;">
+                                    <children>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Beverages Sold">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="totalBeveragesSoldLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="0">
+                                            <font>
+                                                <Font name="System Bold" size="48.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                                
+                                <!-- Beverage Selection -->
+                                <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-text-fill: #333333; -fx-font-weight: bold; -fx-font-size: 14;" text="Select Beverage:">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="beverageCombo" style="-fx-background-radius: 8; -fx-padding: 10;" HBox.hgrow="ALWAYS" maxWidth="400.0" />
+                                        
+                                        <Button fx:id="btnConfirmBeverageSale" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="✅ Confirm Sale">
+                                            <font>
+                                                <Font name="System Bold" size="16.0" />
+                                            </font>
+                                        </Button>
+                                    </children>
+                                </VBox>
+                                
+                                <!-- Beverage Prices Info -->
+                                <VBox spacing="5.0" style="-fx-background-color: rgba(255,152,0,0.1); -fx-background-radius: 10; -fx-padding: 15;">
+                                    <children>
+                                        <Label style="-fx-text-fill: #666666; -fx-font-weight: bold; -fx-font-size: 12;" text="Available Beverages:">
+                                            <font>
+                                                <Font name="System Bold" size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <Label style="-fx-text-fill: #666666; -fx-font-size: 11;" text="Water (Rp 3,000) | Pre-Workout (Rp 5,000) | Whey Protein (Rp 5,000)" />
+                                        <Label style="-fx-text-fill: #666666; -fx-font-size: 11;" text="Creatine (Rp 5,000) | Banana (Rp 3,000) | Protein Bar (Rp 5,000)" />
+                                    </children>
+                                </VBox>
                             </children>
                         </VBox>
                     </children>

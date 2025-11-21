@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
+    <children>
+        <!-- Background Image -->
+        <ImageView fx:id="analyticsBackgroundImage" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <image>
+                <Image url="@../Icons/bg_price.jpg" />
+            </image>
+        </ImageView>
+
+        <!-- Main Content -->
+        <VBox alignment="TOP_CENTER" spacing="25.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
+            <children>
+                <!-- Header -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 15; -fx-padding: 20;">
+                    <children>
+                        <Label style="-fx-font-size: 32;" text="📈">
+                            <font>
+                                <Font size="32.0" />
+                            </font>
+                        </Label>
+                        <Label style="-fx-text-fill: #2196F3; -fx-font-weight: bold;" text="ANALYTICS">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+
+                <!-- Analytics Cards Grid -->
+                <HBox alignment="TOP_CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <!-- Left Column -->
+                        <VBox alignment="TOP_CENTER" spacing="20.0" HBox.hgrow="ALWAYS" minWidth="300.0" maxWidth="500.0">
+                            <children>
+                                <!-- Total Members Card -->
+                                <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #4CAF50, #45a049); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="👥">
+                                            <font>
+                                                <Font size="48.0" />
+                                            </font>
+                                        </Label>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Registered Members">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="totalMembersLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="0">
+                                            <font>
+                                                <Font name="System Bold" size="42.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+
+                                <!-- Total Daily Visitors Card -->
+                                <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #2196F3, #1976D2); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="🚶">
+                                            <font>
+                                                <Font size="48.0" />
+                                            </font>
+                                        </Label>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Daily Visitors">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="totalDailyVisitorsLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="0">
+                                            <font>
+                                                <Font name="System Bold" size="42.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+
+                                <!-- Total Subscription Revenue Card -->
+                                <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #9C27B0, #7B1FA2); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="💳">
+                                            <font>
+                                                <Font size="48.0" />
+                                            </font>
+                                        </Label>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Subscription Revenue">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="totalSubscriptionRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
+                                            <font>
+                                                <Font name="System Bold" size="28.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Right Column -->
+                        <VBox alignment="TOP_CENTER" spacing="20.0" HBox.hgrow="ALWAYS" minWidth="300.0" maxWidth="500.0">
+                            <children>
+                                <!-- Total Daily Visitor Revenue Card -->
+                                <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #FF9800, #F57C00); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="💰">
+                                            <font>
+                                                <Font size="48.0" />
+                                            </font>
+                                        </Label>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Daily Visitor Revenue">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="totalDailyVisitorRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
+                                            <font>
+                                                <Font name="System Bold" size="28.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+
+                                <!-- Total Beverage Revenue Card -->
+                                <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #E91E63, #C2185B); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="🥤">
+                                            <font>
+                                                <Font size="48.0" />
+                                            </font>
+                                        </Label>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Beverage Revenue">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="totalBeverageRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
+                                            <font>
+                                                <Font name="System Bold" size="28.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+
+                                <!-- Combined Total Revenue Card -->
+                                <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #2f7d32, #1B5E20); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 5);" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="💎">
+                                            <font>
+                                                <Font size="48.0" />
+                                            </font>
+                                        </Label>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Combined Total Revenue">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="combinedTotalRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
+                                            <font>
+                                                <Font name="System Bold" size="36.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
