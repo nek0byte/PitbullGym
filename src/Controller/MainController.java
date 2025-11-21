@@ -20,6 +20,14 @@ public class MainController {
     // ============================================
     @FXML
     private StackPane mainPane;
+    
+    // Sidebar buttons
+    @FXML
+    private javafx.scene.control.Button btnDashboard;
+    @FXML
+    private javafx.scene.control.Button btnAnalytics;
+    @FXML
+    private javafx.scene.control.Button btnMember;
 
     // ============================================
     // FXML Fields - Price Cards
@@ -38,6 +46,7 @@ public class MainController {
     // ============================================
     private MemberController membershipController;
     private DashboardController dashboardController;
+    private AnalyticsController analyticsController;
 
     // Timeline untuk auto-refresh status membership
     private Timeline statusRefreshTimeline;
@@ -220,6 +229,7 @@ public class MainController {
 
     public void memberAct(ActionEvent actionEvent) {
         setMainPane("/resources/fxml/Membership.fxml");
+        updateSidebarActive("btnMember");
 
         Platform.runLater(() -> {
             Node memberNode = mainPane.getChildren().isEmpty() ? null : mainPane.getChildren().get(0);
@@ -264,12 +274,35 @@ public class MainController {
         });
     }
 
-    public void contactAct(ActionEvent actionEvent) {
-        // TODO: Implement contact page
+    public void analyticsAct(ActionEvent actionEvent) {
+        setMainPane("/resources/fxml/Analytics.fxml");
+        updateSidebarActive("btnAnalytics");
+        
+        Platform.runLater(() -> {
+            Node analyticsNode = mainPane.getChildren().isEmpty() ? null : mainPane.getChildren().get(0);
+            if (analyticsNode != null) {
+                // Setup background image
+                ImageView backgroundImage = (ImageView) analyticsNode.lookup("#analyticsBackgroundImage");
+                if (backgroundImage != null) {
+                    backgroundImage.fitWidthProperty().bind(mainPane.widthProperty());
+                    backgroundImage.fitHeightProperty().bind(mainPane.heightProperty());
+                    backgroundImage.setPreserveRatio(false);
+                }
+                
+                // Setup analytics controller if needed
+                if (analyticsController == null) {
+                    analyticsController = new AnalyticsController();
+                }
+                analyticsController.setupAnalytics(analyticsNode);
+                // Always refresh when navigating to analytics page
+                analyticsController.refreshAnalytics();
+            }
+        });
     }
 
-    public void mainAct(ActionEvent actionEvent) {
+    public void dashboardAct(ActionEvent actionEvent) {
         setMainPane("/resources/fxml/Dashboard.fxml");
+        updateSidebarActive("btnDashboard");
 
         // Setup background image and dashboard
         Platform.runLater(() -> {
@@ -283,9 +316,34 @@ public class MainController {
                     backgroundImage.setPreserveRatio(false);
                 }
 
-                // Setup dashboard
+                // Setup dashboard with callback to refresh analytics
+                dashboardController.setOnDataChangedCallback(() -> {
+                    // Refresh analytics if it's currently displayed
+                    if (analyticsController != null && mainPane.getChildren().size() > 0) {
+                        Node currentPage = mainPane.getChildren().get(0);
+                        if (currentPage != null && currentPage.lookup("#totalMembersLabel") != null) {
+                            analyticsController.refreshAnalytics();
+                        }
+                    }
+                });
                 dashboardController.setupDashboard(dashboardNode);
             }
         });
+    }
+    
+    // Update sidebar active button styling
+    private void updateSidebarActive(String activeButtonId) {
+        String activeStyle = "-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14;";
+        String inactiveStyle = "-fx-background-color: transparent; -fx-text-fill: #333333; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: transparent;";
+        
+        if (btnDashboard != null) {
+            btnDashboard.setStyle(activeButtonId.equals("btnDashboard") ? activeStyle : inactiveStyle);
+        }
+        if (btnAnalytics != null) {
+            btnAnalytics.setStyle(activeButtonId.equals("btnAnalytics") ? activeStyle : inactiveStyle);
+        }
+        if (btnMember != null) {
+            btnMember.setStyle(activeButtonId.equals("btnMember") ? activeStyle : inactiveStyle);
+        }
     }
 }

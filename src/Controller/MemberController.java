@@ -5,13 +5,24 @@ import Model.Member;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
-
+import javafx.scene.image.WritableImage;
+import javafx.embed.swing.SwingFXUtils;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class MemberController {
 
@@ -58,7 +69,7 @@ public class MemberController {
         colStatus = (TableColumn<Member, String>) memberTable.getColumns().get(6);
         colAction = (TableColumn<Member, Void>) memberTable.getColumns().get(7);
 
-        // Set row number for ID column
+        // Set member ID for ID column
         colID.setCellFactory(col -> new TableCell<Member, Integer>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -66,7 +77,8 @@ public class MemberController {
                 if (empty) {
                     setText(null);
                 } else {
-                    setText(String.valueOf(getIndex() + 1));
+                    Member member = getTableView().getItems().get(getIndex());
+                    setText(member.getMemberIdString());
                 }
             }
         });
@@ -110,11 +122,17 @@ public class MemberController {
 
                             private final Button btnEdit = new Button("Edit");
                             private final Button btnDelete = new Button("Delete");
+                            private final Button btnCard = new Button("Card");
+                            private final Button btnDetails = new Button("Details");
 
                             {
                                 btnEdit.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; " +
                                         "-fx-background-radius: 5; -fx-padding: 5 10 5 10; -fx-cursor: hand;");
                                 btnDelete.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; " +
+                                        "-fx-background-radius: 5; -fx-padding: 5 10 5 10; -fx-cursor: hand;");
+                                btnCard.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; " +
+                                        "-fx-background-radius: 5; -fx-padding: 5 10 5 10; -fx-cursor: hand;");
+                                btnDetails.setStyle("-fx-background-color: #9C27B0; -fx-text-fill: white; " +
                                         "-fx-background-radius: 5; -fx-padding: 5 10 5 10; -fx-cursor: hand;");
 
                                 btnEdit.setOnAction(event -> {
@@ -126,6 +144,16 @@ public class MemberController {
                                     Member member = getTableView().getItems().get(getIndex());
                                     deleteMember(member);
                                 });
+                                
+                                btnCard.setOnAction(event -> {
+                                    Member member = getTableView().getItems().get(getIndex());
+                                    generateMemberCard(member);
+                                });
+                                
+                                btnDetails.setOnAction(event -> {
+                                    Member member = getTableView().getItems().get(getIndex());
+                                    showMemberDetails(member);
+                                });
                             }
 
                             @Override
@@ -134,7 +162,7 @@ public class MemberController {
                                 if (empty) {
                                     setGraphic(null);
                                 } else {
-                                    HBox buttons = new HBox(5, btnEdit, btnDelete);
+                                    HBox buttons = new HBox(5, btnEdit, btnDetails, btnCard, btnDelete);
                                     setGraphic(buttons);
                                 }
                             }
@@ -264,7 +292,8 @@ public class MemberController {
                         phone,
                         planCombo.getValue(),
                         startDatePicker.getValue(),
-                        endDatePicker.getValue()
+                        endDatePicker.getValue(),
+                        1 // Initial membership count
                 );
             }
             return null;
@@ -403,6 +432,12 @@ public class MemberController {
                 member.setName(name);
                 member.setPhone(phone);
                 member.setPlanType(planCombo.getValue());
+                
+                // If extending membership, increment count
+                if (endDatePicker.getValue().isAfter(member.getEndDate())) {
+                    member.incrementMembershipCount();
+                }
+                
                 member.setStartDate(startDatePicker.getValue());
                 member.setEndDate(endDatePicker.getValue());
                 return member;
@@ -465,6 +500,162 @@ public class MemberController {
             memberTable.refresh();
             updateStatistics();
         }
+    }
+
+    // Generate Member Card
+    private void generateMemberCard(Member member) {
+        // Create a dialog to display and save the member card
+        Dialog<Void> cardDialog = new Dialog<>();
+        cardDialog.setTitle("Member Card - " + member.getName());
+        cardDialog.setHeaderText("Member Card");
+        
+        ButtonType saveButtonType = new ButtonType("Save as Image", ButtonBar.ButtonData.OK_DONE);
+        cardDialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CLOSE);
+        
+        // Create card layout
+        VBox cardBox = new VBox(20);
+        cardBox.setAlignment(javafx.geometry.Pos.CENTER);
+        cardBox.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, #1a1a2e, #16213e); " +
+            "-fx-background-radius: 20; " +
+            "-fx-padding: 40; " +
+            "-fx-border-color: #4CAF50; " +
+            "-fx-border-width: 3; " +
+            "-fx-border-radius: 20; " +
+            "-fx-min-width: 400; " +
+            "-fx-min-height: 500;"
+        );
+        
+        // Gym Logo/Title
+        Label gymTitle = new Label("PITBULL'Z GYM");
+        gymTitle.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold;");
+        gymTitle.setFont(new Font(28));
+        gymTitle.setTextAlignment(TextAlignment.CENTER);
+        
+        Label memberCardLabel = new Label("MEMBER CARD");
+        memberCardLabel.setStyle("-fx-text-fill: rgba(255,255,255,0.8); -fx-font-weight: bold;");
+        memberCardLabel.setFont(new Font(16));
+        memberCardLabel.setTextAlignment(TextAlignment.CENTER);
+        
+        // Member ID
+        Label memberIdLabel = new Label("ID: " + member.getMemberIdString());
+        memberIdLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold;");
+        memberIdLabel.setFont(new Font(18));
+        memberIdLabel.setTextAlignment(TextAlignment.CENTER);
+        
+        // Member Name
+        Label nameLabel = new Label(member.getName());
+        nameLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+        nameLabel.setFont(new Font(24));
+        nameLabel.setTextAlignment(TextAlignment.CENTER);
+        
+        // Membership Details
+        VBox detailsBox = new VBox(10);
+        detailsBox.setAlignment(javafx.geometry.Pos.CENTER);
+        
+        Label planLabel = new Label("Plan: " + member.getPlanType());
+        planLabel.setStyle("-fx-text-fill: rgba(255,255,255,0.9);");
+        planLabel.setFont(new Font(14));
+        
+        Label startLabel = new Label("Start: " + member.getStartDate().format(DateTimeFormatter.ofPattern("dd MMM yyyy")));
+        startLabel.setStyle("-fx-text-fill: rgba(255,255,255,0.9);");
+        startLabel.setFont(new Font(14));
+        
+        Label endLabel = new Label("Valid Until: " + member.getEndDate().format(DateTimeFormatter.ofPattern("dd MMM yyyy")));
+        endLabel.setStyle("-fx-text-fill: rgba(255,255,255,0.9);");
+        endLabel.setFont(new Font(14));
+        
+        Label statusLabel = new Label("Status: " + member.getStatus());
+        statusLabel.setStyle(member.getStatus().equals("Active") ? 
+            "-fx-text-fill: #4CAF50; -fx-font-weight: bold;" : 
+            "-fx-text-fill: #f44336; -fx-font-weight: bold;");
+        statusLabel.setFont(new Font(14));
+        
+        Label countLabel = new Label("Membership Count: " + member.getMembershipCount());
+        countLabel.setStyle("-fx-text-fill: rgba(255,255,255,0.8);");
+        countLabel.setFont(new Font(12));
+        
+        detailsBox.getChildren().addAll(planLabel, startLabel, endLabel, statusLabel, countLabel);
+        
+        cardBox.getChildren().addAll(gymTitle, memberCardLabel, memberIdLabel, nameLabel, detailsBox);
+        
+        cardDialog.getDialogPane().setContent(cardBox);
+        cardDialog.getDialogPane().setPrefSize(450, 550);
+        
+        // Handle save button
+        Node saveButton = cardDialog.getDialogPane().lookupButton(saveButtonType);
+        saveButton.setOnMouseClicked(event -> {
+            try {
+                // Create a scene with the card
+                Scene scene = new Scene(cardBox);
+                WritableImage image = cardBox.snapshot(null, null);
+                
+                // Save dialog
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save Member Card");
+                fileChooser.setInitialFileName("MemberCard_" + member.getMemberIdString() + ".png");
+                fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("PNG files", "*.png")
+                );
+                
+                File file = fileChooser.showSaveDialog(cardDialog.getDialogPane().getScene().getWindow());
+                if (file != null) {
+                    ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+                    showAlert(Alert.AlertType.INFORMATION, "Success", 
+                        "Member card saved successfully!\n" + file.getAbsolutePath());
+                }
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to save member card: " + e.getMessage());
+            }
+        });
+        
+        cardDialog.showAndWait();
+    }
+    
+    // Show detailed member information dialog
+    public void showMemberDetails(Member member) {
+        Dialog<Void> detailsDialog = new Dialog<>();
+        detailsDialog.setTitle("Member Details - " + member.getName());
+        detailsDialog.setHeaderText("Detailed Member Information");
+        
+        ButtonType closeButtonType = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+        detailsDialog.getDialogPane().getButtonTypes().addAll(closeButtonType);
+        
+        GridPane grid = new GridPane();
+        grid.setHgap(15);
+        grid.setVgap(15);
+        grid.setPadding(new Insets(20, 40, 20, 40));
+        
+        grid.add(new Label("Name:"), 0, 0);
+        grid.add(new Label(member.getName()), 1, 0);
+        
+        grid.add(new Label("Phone:"), 0, 1);
+        grid.add(new Label(member.getPhone()), 1, 1);
+        
+        grid.add(new Label("Member ID:"), 0, 2);
+        grid.add(new Label(member.getMemberIdString()), 1, 2);
+        
+        grid.add(new Label("Plan Type:"), 0, 3);
+        grid.add(new Label(member.getPlanType()), 1, 3);
+        
+        grid.add(new Label("Start Date:"), 0, 4);
+        grid.add(new Label(member.getStartDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))), 1, 4);
+        
+        grid.add(new Label("End Date:"), 0, 5);
+        grid.add(new Label(member.getEndDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))), 1, 5);
+        
+        grid.add(new Label("Status:"), 0, 6);
+        Label statusLabel = new Label(member.getStatus());
+        statusLabel.setStyle(member.getStatus().equals("Active") ? 
+            "-fx-text-fill: #4CAF50; -fx-font-weight: bold;" : 
+            "-fx-text-fill: #f44336; -fx-font-weight: bold;");
+        grid.add(statusLabel, 1, 6);
+        
+        grid.add(new Label("Membership Count:"), 0, 7);
+        grid.add(new Label(String.valueOf(member.getMembershipCount())), 1, 7);
+        
+        detailsDialog.getDialogPane().setContent(grid);
+        detailsDialog.showAndWait();
     }
 
     // Show alert helper

@@ -1,8 +1,11 @@
 package DataAccess;
 
 import Model.Dashboard;
+import Model.BeverageSale;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DashboardDoA {
@@ -10,13 +13,15 @@ public class DashboardDoA {
     // In-memory storage untuk dashboard data (key = date, value = data)
     private Map<LocalDate, Dashboard> dashboardStorage;
     private Dashboard todayData;
+    private List<BeverageSale> beverageSales; // Store all beverage sales
 
     public DashboardDoA() {
         dashboardStorage = new HashMap<>();
+        beverageSales = new ArrayList<>();
 
         // Initialize today's data
         LocalDate today = LocalDate.now();
-        todayData = new Dashboard(today, 0, 0, 0);
+        todayData = new Dashboard(today, 0, 0, 0, 0, 0);
         dashboardStorage.put(today, todayData);
 
         // Load dummy historical data for testing
@@ -26,17 +31,17 @@ public class DashboardDoA {
     private void loadDummyData() {
         // Data kemarin
         LocalDate yesterday = LocalDate.now().minusDays(1);
-        Dashboard yesterdayData = new Dashboard(yesterday, 25, 8, 350000);
+        Dashboard yesterdayData = new Dashboard(yesterday, 25, 8, 350000, 250000, 100000);
         dashboardStorage.put(yesterday, yesterdayData);
 
         // Data 2 hari lalu
         LocalDate twoDaysAgo = LocalDate.now().minusDays(2);
-        Dashboard twoDaysAgoData = new Dashboard(twoDaysAgo, 30, 12, 480000);
+        Dashboard twoDaysAgoData = new Dashboard(twoDaysAgo, 30, 12, 480000, 300000, 180000);
         dashboardStorage.put(twoDaysAgo, twoDaysAgoData);
 
         // Data 3 hari lalu
         LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
-        Dashboard threeDaysAgoData = new Dashboard(threeDaysAgo, 28, 10, 420000);
+        Dashboard threeDaysAgoData = new Dashboard(threeDaysAgo, 28, 10, 420000, 280000, 140000);
         dashboardStorage.put(threeDaysAgo, threeDaysAgoData);
     }
 
@@ -50,7 +55,7 @@ public class DashboardDoA {
             dashboardStorage.put(todayData.getDate(), todayData);
 
             // Create new today's data
-            todayData = new Dashboard(today, 0, 0, 0);
+            todayData = new Dashboard(today, 0, 0, 0, 0, 0);
             dashboardStorage.put(today, todayData);
         }
 
@@ -59,7 +64,42 @@ public class DashboardDoA {
 
     // Get data by date
     public Dashboard getDataByDate(LocalDate date) {
-        return dashboardStorage.getOrDefault(date, new Dashboard(date, 0, 0, 0));
+        return dashboardStorage.getOrDefault(date, new Dashboard(date, 0, 0, 0, 0, 0));
+    }
+    
+    // Add beverage sale
+    public boolean addBeverageSale(String beverageName, long price) {
+        try {
+            LocalDate today = LocalDate.now();
+            BeverageSale sale = new BeverageSale(beverageName, price, today);
+            beverageSales.add(sale);
+            getTodayData().addBeverageSale(price);
+            System.out.println("✓ Beverage sale added: " + beverageName + " - Rp " + String.format("%,d", price));
+            return true;
+        } catch (Exception e) {
+            System.err.println("✗ Failed to add beverage sale: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    // Get total beverage revenue (all time)
+    public long getTotalBeverageRevenue() {
+        return beverageSales.stream()
+                .mapToLong(BeverageSale::getPrice)
+                .sum();
+    }
+    
+    // Get total beverage revenue for a specific date
+    public long getBeverageRevenueByDate(LocalDate date) {
+        return beverageSales.stream()
+                .filter(sale -> sale.getSaleDate().equals(date))
+                .mapToLong(BeverageSale::getPrice)
+                .sum();
+    }
+    
+    // Get all beverage sales
+    public List<BeverageSale> getAllBeverageSales() {
+        return new ArrayList<>(beverageSales);
     }
 
     // Add visitor to today
