@@ -46,7 +46,7 @@
                             </children>
                         </VBox>
 
-                        <Button fx:id="btnRefreshDashboard" style="-fx-background-color: #2f7d32; -fx-text-fill: white; -fx-background-radius: 10; -fx-padding: 12 25 12 25; -fx-cursor: hand; -fx-font-weight: bold;" text="🔄 Refresh" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnRefreshDashboard" style="-fx-background-color: #2f7d32; -fx-text-fill: white; -fx-background-radius: 10; -fx-padding: 12 25 12 25; -fx-cursor: hand; -fx-font-weight: bold;" text="Refresh" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
 
@@ -56,7 +56,7 @@
                         <!-- Daily Visitor System Module -->
                         <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS" minWidth="300.0" maxWidth="600.0">
                             <children>
-                                <Label style="-fx-text-fill: #4CAF50; -fx-font-weight: bold; -fx-font-size: 22;" text="👥 Daily Visitor System">
+                                <Label style="-fx-text-fill: #4CAF50; -fx-font-weight: bold; -fx-font-size: 22;" text="Daily Visitor System">
                                     <font>
                                         <Font name="System Bold" size="22.0" />
                                     </font>
@@ -95,7 +95,7 @@
                                 </VBox>
                                 
                                 <!-- Add Visitor Button -->
-                                <Button fx:id="btnAddDailyVisitor" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="➕ Add Daily Visitor">
+                                <Button fx:id="btnAddDailyVisitor" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="Add Daily Visitor">
                                     <font>
                                         <Font name="System Bold" size="16.0" />
                                     </font>
@@ -112,7 +112,7 @@
                         <!-- Beverage Sales System Module -->
                         <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS" minWidth="300.0" maxWidth="600.0">
                             <children>
-                                <Label style="-fx-text-fill: #FF9800; -fx-font-weight: bold; -fx-font-size: 22;" text="🥤 Beverage Sales System">
+                                <Label style="-fx-text-fill: #FF9800; -fx-font-weight: bold; -fx-font-size: 22;" text="Beverage Sales System">
                                     <font>
                                         <Font name="System Bold" size="22.0" />
                                     </font>
@@ -160,7 +160,7 @@
                                         </Label>
                                         <ComboBox fx:id="beverageCombo" style="-fx-background-radius: 8; -fx-padding: 10;" HBox.hgrow="ALWAYS" maxWidth="400.0" />
                                         
-                                        <Button fx:id="btnConfirmBeverageSale" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="✅ Confirm Sale">
+                                        <Button fx:id="btnConfirmBeverageSale" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="Confirm Sale">
                                             <font>
                                                 <Font name="System Bold" size="16.0" />
                                             </font>

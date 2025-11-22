@@ -37,19 +37,19 @@
                <!-- Navigation Buttons -->
                <VBox alignment="CENTER" spacing="5.0" style="-fx-padding: 20 10 20 10;" VBox.vgrow="ALWAYS">
                   <children>
-                     <Button fx:id="btnDashboard" alignment="CENTER_LEFT" contentDisplay="LEFT" mnemonicParsing="false" onAction="#dashboardAct" prefHeight="50.0" maxWidth="250.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14;" text="📊 Dashboard" HBox.hgrow="ALWAYS">
+                     <Button fx:id="btnDashboard" alignment="CENTER_LEFT" contentDisplay="LEFT" mnemonicParsing="false" onAction="#dashboardAct" prefHeight="50.0" maxWidth="250.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14;" text="Dashboard">
                         <padding>
                            <Insets left="20.0" />
                         </padding>
                      </Button>
                      
-                     <Button fx:id="btnAnalytics" alignment="CENTER_LEFT" contentDisplay="LEFT" mnemonicParsing="false" onAction="#analyticsAct" prefHeight="50.0" maxWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: #333333; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: transparent;" text="📈 Analytics" HBox.hgrow="ALWAYS">
+                     <Button fx:id="btnAnalytics" alignment="CENTER_LEFT" contentDisplay="LEFT" mnemonicParsing="false" onAction="#analyticsAct" prefHeight="50.0" maxWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: #333333; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: transparent;" text="Analytics">
                         <padding>
                            <Insets left="20.0" />
                         </padding>
                      </Button>
                      
-                     <Button fx:id="btnMember" alignment="CENTER_LEFT" contentDisplay="LEFT" mnemonicParsing="false" onAction="#memberAct" prefHeight="50.0" maxWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: #333333; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: transparent;" text="👥 Members" HBox.hgrow="ALWAYS">
+                     <Button fx:id="btnMember" alignment="CENTER_LEFT" contentDisplay="LEFT" mnemonicParsing="false" onAction="#memberAct" prefHeight="50.0" maxWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: #333333; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: transparent;" text="Members">
                         <padding>
                            <Insets left="20.0" />
                         </padding>

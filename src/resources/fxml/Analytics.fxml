@@ -24,7 +24,7 @@
                 <!-- Header -->
                 <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 15; -fx-padding: 20;">
                     <children>
-                        <Label style="-fx-font-size: 32;" text="📈">
+                        <Label style="-fx-font-size: 32;" text="">
                             <font>
                                 <Font size="32.0" />
                             </font>
@@ -46,7 +46,7 @@
                                 <!-- Total Members Card -->
                                 <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #4CAF50, #45a049); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="👥">
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="">
                                             <font>
                                                 <Font size="48.0" />
                                             </font>
@@ -67,7 +67,7 @@
                                 <!-- Total Daily Visitors Card -->
                                 <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #2196F3, #1976D2); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="🚶">
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="">
                                             <font>
                                                 <Font size="48.0" />
                                             </font>
@@ -88,7 +88,7 @@
                                 <!-- Total Subscription Revenue Card -->
                                 <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #9C27B0, #7B1FA2); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="💳">
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="">
                                             <font>
                                                 <Font size="48.0" />
                                             </font>
@@ -114,7 +114,7 @@
                                 <!-- Total Daily Visitor Revenue Card -->
                                 <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #FF9800, #F57C00); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="💰">
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="">
                                             <font>
                                                 <Font size="48.0" />
                                             </font>
@@ -135,7 +135,7 @@
                                 <!-- Total Beverage Revenue Card -->
                                 <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #E91E63, #C2185B); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="🥤">
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="">
                                             <font>
                                                 <Font size="48.0" />
                                             </font>
@@ -156,7 +156,7 @@
                                 <!-- Combined Total Revenue Card -->
                                 <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #2f7d32, #1B5E20); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 5);" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="💎">
+                                        <Label style="-fx-font-size: 48; -fx-text-fill: white;" text="">
                                             <font>
                                                 <Font size="48.0" />
                                             </font>
