@@ -19,7 +19,7 @@ public class MemberDoA {
         currentId = 1;
 
         // Load dummy data untuk testing
-        loadDummyData();
+//        loadDummyData();
     }
 
     // Load dummy data

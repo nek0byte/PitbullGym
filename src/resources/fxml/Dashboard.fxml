@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -54,7 +55,7 @@
                 <HBox alignment="TOP_CENTER" spacing="25.0" VBox.vgrow="ALWAYS">
                     <children>
                         <!-- Daily Visitor System Module -->
-                        <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS" minWidth="300.0" maxWidth="600.0">
+                        <VBox alignment="TOP_CENTER" maxWidth="600.0" minWidth="300.0" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                             <children>
                                 <Label style="-fx-text-fill: #4CAF50; -fx-font-weight: bold; -fx-font-size: 22;" text="👥 Daily Visitor System">
                                     <font>
@@ -63,7 +64,7 @@
                                 </Label>
                                 
                                 <!-- Visitor Count Display -->
-                                <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #4CAF50, #45a049); -fx-background-radius: 15; -fx-padding: 25;">
+                                <VBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="127.2" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #4CAF50, #45a049); -fx-background-radius: 15; -fx-padding: 25;">
                                     <children>
                                         <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Daily Visitors">
                                             <font>
@@ -110,13 +111,21 @@
                         </VBox>
 
                         <!-- Beverage Sales System Module -->
-                        <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS" minWidth="300.0" maxWidth="600.0">
+                        <VBox alignment="TOP_CENTER" maxWidth="600.0" minWidth="300.0" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                             <children>
-                                <Label style="-fx-text-fill: #FF9800; -fx-font-weight: bold; -fx-font-size: 22;" text="🥤 Beverage Sales System">
-                                    <font>
-                                        <Font name="System Bold" size="22.0" />
-                                    </font>
-                                </Label>
+                        <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="539.0">
+                           <children>
+                              <FontAwesomeIcon fill="#ff9800" glyphName="COFFEE" size="2.5em" />
+                                      <Label contentDisplay="CENTER" style="-fx-text-fill: #FF9800; -fx-font-weight: bold; -fx-font-size: 22;" text="Beverage Sales System" textAlignment="CENTER">
+                                          <font>
+                                              <Font name="System Bold" size="22.0" />
+                                          </font>
+                                 <padding>
+                                    <Insets left="8.0" />
+                                 </padding>
+                                      </Label>
+                           </children>
+                        </HBox>
                                 
                                 <!-- Beverage Revenue Display -->
                                 <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #FF9800, #F57C00); -fx-background-radius: 15; -fx-padding: 25;">
@@ -135,7 +144,7 @@
                                 </VBox>
                                 
                                 <!-- Beverages Sold Display -->
-                                <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #9C27B0, #7B1FA2); -fx-background-radius: 15; -fx-padding: 25;">
+                                <VBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="127.2" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #9C27B0, #7B1FA2); -fx-background-radius: 15; -fx-padding: 25;">
                                     <children>
                                         <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Beverages Sold">
                                             <font>
@@ -158,7 +167,7 @@
                                                 <Font name="System Bold" size="14.0" />
                                             </font>
                                         </Label>
-                                        <ComboBox fx:id="beverageCombo" style="-fx-background-radius: 8; -fx-padding: 10;" HBox.hgrow="ALWAYS" maxWidth="400.0" />
+                                        <ComboBox fx:id="beverageCombo" maxWidth="400.0" style="-fx-background-radius: 8; -fx-padding: 10;" HBox.hgrow="ALWAYS" />
                                         
                                         <Button fx:id="btnConfirmBeverageSale" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="✅ Confirm Sale">
                                             <font>
