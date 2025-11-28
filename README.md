@@ -4,7 +4,6 @@
 
 ## 🎯 Overview
 
-**PitbullGym** adalah aplikasi desktop untuk manajemen member gym yang dibangun dengan:
 - **Frontend**: JavaFX (Modern UI dengan FXML)
 - **Backend**: MySQL Database
 - **Language**: Java 25
@@ -179,30 +178,6 @@ Statistics refreshed automatically
 - Added comprehensive documentation
 - Optimized database queries with indexes
 - Full CRUD operations for members
-
----
-
-## 📝 Sample Data
-
-Uncomment in `setup_database.sql` untuk test data:
-
-```sql
-INSERT INTO members (name, phone, plan_type, start_date, end_date, status, membership_count) VALUES
-('John Doe', '081234567890', 'Monthly', CURDATE() - INTERVAL 10 DAY, CURDATE() + INTERVAL 20 DAY, 'Active', 1),
-('Jane Smith', '081234567891', 'Special', CURDATE() - INTERVAL 5 DAY, CURDATE() + INTERVAL 25 DAY, 'Active', 1);
-```
-
----
-
-## ✨ Ready to Go!
-
-Aplikasi Anda sudah lengkap dengan:
-- ✅ MySQL database
-- ✅ Live search functionality
-- ✅ Complete documentation
-- ✅ Production-ready code
-
-**Next Step:** Ikuti QUICK_SETUP.md untuk setup 🚀
 
 ---
 
