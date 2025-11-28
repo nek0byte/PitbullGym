@@ -163,15 +163,6 @@ Statistics refreshed automatically
 
 ---
 
-## 📚 Documentation
-
-- **QUICK_SETUP.md** - Fast setup checklist
-- **MYSQL_SETUP.md** - Detailed setup guide with troubleshooting
-- **MIGRATION_SUMMARY.md** - SQLite to MySQL migration details
-- **ARCHITECTURE.md** - System architecture & data flow diagrams
-
----
-
 ## 🔐 Security Features
 
 ✅ Prepared Statements (SQL injection protection)  
