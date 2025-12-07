@@ -1,10 +1,10 @@
 package Model;
 
-public class Beverage {
+public class FnB {
     private String name;
     private long price;
     
-    public Beverage(String name, long price) {
+    public FnB(String name, long price) {
         this.name = name;
         this.price = price;
     }

@@ -101,8 +101,32 @@ public class DatabaseManager {
                 "INDEX idx_status (status)" +
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
+        String createVisitorsTable = "CREATE TABLE IF NOT EXISTS dashboard_visitors (" +
+                "id INT AUTO_INCREMENT PRIMARY KEY," +
+                "date DATE NOT NULL," +
+                "visitor_count INT DEFAULT 0," +
+                "visitor_income BIGINT DEFAULT 0," +
+                "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                "INDEX idx_date (date)" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+
+        // NEW: Create fnb_sales table (rename dari beverage)
+        String createFnbSalesTable = "CREATE TABLE IF NOT EXISTS fnb_sales (" +
+                "id INT AUTO_INCREMENT PRIMARY KEY," +
+                "fnb_name VARCHAR(100) NOT NULL," +
+                "price BIGINT NOT NULL," +
+                "sale_date DATE NOT NULL," +
+                "quantity INT DEFAULT 1," +
+                "total_price BIGINT NOT NULL," +
+                "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                "INDEX idx_sale_date (sale_date)," +
+                "INDEX idx_fnbn_name (fnb_name)" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createMembersTable);
+            stmt.execute(createVisitorsTable);
+            stmt.execute(createFnbSalesTable);
             System.out.println("✓ Members table checked/created successfully");
         } catch (SQLException e) {
             System.err.println("✗ Error creating tables: " + e.getMessage());

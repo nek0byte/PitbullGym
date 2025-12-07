@@ -1,255 +1,218 @@
 package DataAccess;
 
 import Model.Dashboard;
-import Model.BeverageSale;
+import Model.FnBSale; // Rename dari BeverageSale
 import java.time.LocalDate;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DashboardDoA {
-
-    // In-memory storage untuk dashboard data (key = date, value = data)
-    private Map<LocalDate, Dashboard> dashboardStorage;
-    private Dashboard todayData;
-    private List<BeverageSale> beverageSales; // Store all beverage sales
+    private static final String VISITORS_TABLE = "dashboard_visitors";
+    private static final String FNB_SALES_TABLE = "fnb_sales";
 
     public DashboardDoA() {
-        dashboardStorage = new HashMap<>();
-        beverageSales = new ArrayList<>();
-
-        // Initialize today's data
-        LocalDate today = LocalDate.now();
-        todayData = new Dashboard(today, 0, 0, 0, 0, 0);
-        dashboardStorage.put(today, todayData);
-
-        // Load dummy historical data for testing
-        loadDummyData();
+        ensureDatabaseConnection();
     }
 
-    private void loadDummyData() {
-        // Data kemarin
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        Dashboard yesterdayData = new Dashboard(yesterday, 25, 8, 350000, 250000, 100000);
-        dashboardStorage.put(yesterday, yesterdayData);
-
-        // Data 2 hari lalu
-        LocalDate twoDaysAgo = LocalDate.now().minusDays(2);
-        Dashboard twoDaysAgoData = new Dashboard(twoDaysAgo, 30, 12, 480000, 300000, 180000);
-        dashboardStorage.put(twoDaysAgo, twoDaysAgoData);
-
-        // Data 3 hari lalu
-        LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
-        Dashboard threeDaysAgoData = new Dashboard(threeDaysAgo, 28, 10, 420000, 280000, 140000);
-        dashboardStorage.put(threeDaysAgo, threeDaysAgoData);
+    private void ensureDatabaseConnection() {
+        if (!DatabaseManager.isConnected()) {
+            DatabaseManager.initialize();
+        }
     }
 
     // Get today's data
     public Dashboard getTodayData() {
         LocalDate today = LocalDate.now();
 
-        // Check if date changed (new day)
-        if (!todayData.getDate().equals(today)) {
-            // Save yesterday's data
-            dashboardStorage.put(todayData.getDate(), todayData);
+        try {
+            // Check if data exists for today
+            String checkQuery = "SELECT * FROM " + VISITORS_TABLE + " WHERE date = ?";
+            ResultSet rs = DatabaseManager.executeQuery(checkQuery, today.toString());
 
-            // Create new today's data
-            todayData = new Dashboard(today, 0, 0, 0, 0, 0);
-            dashboardStorage.put(today, todayData);
+            if (rs.next()) {
+                LocalDate date = LocalDate.parse(rs.getString("date"));
+                int visitorCount = rs.getInt("visitor_count");
+                long visitorIncome = rs.getLong("visitor_income");
+                
+                // Ambil data FnB untuk hari ini dari tabel fnb_sales
+                Dashboard dashboard = new Dashboard(date, visitorCount, 0, 0, visitorIncome, 0);
+                
+                // Hitung FnB data secara dinamis
+                updateFnBDataForDashboard(dashboard, today);
+                
+                return dashboard;
+            } else {
+                // Create new entry for today
+                String insertQuery = "INSERT INTO " + VISITORS_TABLE +
+                        " (date, visitor_count, visitor_income) VALUES (?, 0, 0)";
+                DatabaseManager.executeUpdate(insertQuery, today.toString());
+
+                return new Dashboard(today, 0, 0, 0, 0, 0);
+            }
+        } catch (SQLException e) {
+            System.err.println("✗ Error getting today's data: " + e.getMessage());
+            return new Dashboard(today, 0, 0, 0, 0, 0);
         }
-
-        return todayData;
     }
 
-    // Get data by date
-    public Dashboard getDataByDate(LocalDate date) {
-        return dashboardStorage.getOrDefault(date, new Dashboard(date, 0, 0, 0, 0, 0));
+    private void updateFnBDataForDashboard(Dashboard dashboard, LocalDate date) {
+        try {
+            String query = "SELECT COUNT(*) as count, SUM(price * quantity) as total " +
+                          "FROM " + FNB_SALES_TABLE + " WHERE sale_date = ?";
+            
+            ResultSet rs = DatabaseManager.executeQuery(query, date.toString());
+            
+            if (rs.next()) {
+                int fnbSold = rs.getInt("count");
+                long fnbRevenue = rs.getLong("total");
+                
+                // Update dashboard object
+                dashboard.setFnBSold(fnbSold);
+                dashboard.setFnBRevenue(fnbRevenue);
+                
+                // Update daily income (visitor income + fnb revenue)
+                long totalIncome = dashboard.getDailyVisitorIncome() + fnbRevenue;
+                dashboard.setDailyIncome(totalIncome);
+            }
+        } catch (SQLException e) {
+            System.err.println("✗ Error calculating FnB data: " + e.getMessage());
+        }
     }
-    
-    // Add beverage sale
-    public boolean addBeverageSale(String beverageName, long price) {
+
+    // Add FnB sale (rename dari addBeverageSale)
+    public boolean addFnbSale(String fnbName, long price) {
+        return addFnbSale(fnbName, price, 1); // Default quantity = 1
+    }
+    public boolean addFnbSale(String fnbName, long price, int quantity) {
         try {
             LocalDate today = LocalDate.now();
-            BeverageSale sale = new BeverageSale(beverageName, price, today);
-            beverageSales.add(sale);
-            getTodayData().addBeverageSale(price);
-            System.out.println("✓ Beverage sale added: " + beverageName + " - Rp " + String.format("%,d", price));
-            return true;
-        } catch (Exception e) {
-            System.err.println("✗ Failed to add beverage sale: " + e.getMessage());
-            return false;
+            long totalPrice = price * quantity;
+
+            // Add to FnB sales table
+            String query = "INSERT INTO " + FNB_SALES_TABLE +
+                    " (fnb_name, price, sale_date, quantity, total_price) VALUES (?, ?, ?, ?, ?)";
+
+            int rows = DatabaseManager.executeUpdate(query, 
+                    fnbName, price, today.toString(), quantity, totalPrice);
+
+            if (rows > 0) {
+                System.out.println("✓ FnB sale added: " + fnbName + 
+                                 " x" + quantity + " = Rp " + String.format("%,d", totalPrice));
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("✗ Failed to add FnB sale: " + e.getMessage());
         }
-    }
-    
-    // Get total beverage revenue (all time)
-    public long getTotalBeverageRevenue() {
-        return beverageSales.stream()
-                .mapToLong(BeverageSale::getPrice)
-                .sum();
-    }
-    
-    // Get total beverage revenue for a specific date
-    public long getBeverageRevenueByDate(LocalDate date) {
-        return beverageSales.stream()
-                .filter(sale -> sale.getSaleDate().equals(date))
-                .mapToLong(BeverageSale::getPrice)
-                .sum();
-    }
-    
-    // Get all beverage sales
-    public List<BeverageSale> getAllBeverageSales() {
-        return new ArrayList<>(beverageSales);
+        return false;
     }
 
-    // Add visitor to today
+    public int getTotalFnBSold() {
+        try {
+            String query = "SELECT SUM(quantity) as total FROM " + FNB_SALES_TABLE;
+            ResultSet rs = DatabaseManager.executeQuery(query);
+
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("✗ Error getting total FnB sold: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public List<FnBSale> getFnBSalesByDateRange(LocalDate startDate, LocalDate endDate) {
+        List<FnBSale> sales = new ArrayList<>();
+        
+        try {
+            String query = "SELECT * FROM " + FNB_SALES_TABLE + 
+                          " WHERE sale_date BETWEEN ? AND ? ORDER BY sale_date DESC";
+            
+            ResultSet rs = DatabaseManager.executeQuery(query, 
+                    startDate.toString(), endDate.toString());
+            
+            while (rs.next()) {
+                String fnbName = rs.getString("fnb_name");
+                long price = rs.getLong("price");
+                LocalDate saleDate = LocalDate.parse(rs.getString("sale_date"));
+                int quantity = rs.getInt("quantity");
+                long totalPrice = rs.getLong("total_price");
+                
+                // Anda mungkin perlu memperbarui model FnBSale untuk include quantity
+                FnBSale sale = new FnBSale(fnbName, price, saleDate, quantity, totalPrice);
+                sales.add(sale);
+            }
+        } catch (SQLException e) {
+            System.err.println("✗ Error getting FnB sales by date range: " + e.getMessage());
+        }
+        
+        return sales;
+    }
+
+    // Add visitor
     public boolean addVisitor() {
         try {
-            getTodayData().addVisitor();
-            System.out.println("✓ Visitor added. New count: " + todayData.getVisitorCount());
-            return true;
-        } catch (Exception e) {
+            LocalDate today = LocalDate.now();
+            Dashboard todayData = getTodayData();
+
+            int newCount = todayData.getVisitorCount() + 1;
+            long newIncome = todayData.getDailyVisitorIncome() + Dashboard.DAILY_GYM_FEE;
+
+            String updateQuery = "UPDATE " + VISITORS_TABLE +
+                    " SET visitor_count = ?, visitor_income = ? WHERE date = ?";
+
+            int rows = DatabaseManager.executeUpdate(updateQuery,
+                    newCount, newIncome, today.toString());
+
+            return rows > 0;
+        } catch (SQLException e) {
             System.err.println("✗ Failed to add visitor: " + e.getMessage());
             return false;
         }
     }
 
-    // Add multiple visitors
-    public boolean addVisitors(int count) {
+    // Get total visitors (all time)
+    public int getTotalVisitors() {
         try {
-            for (int i = 0; i < count; i++) {
-                getTodayData().addVisitor();
+            String query = "SELECT SUM(visitor_count) as total FROM " + VISITORS_TABLE;
+            ResultSet rs = DatabaseManager.executeQuery(query);
+
+            if (rs.next()) {
+                return rs.getInt("total");
             }
-            System.out.println("✓ " + count + " visitors added. Total: " + todayData.getVisitorCount());
-            return true;
-        } catch (Exception e) {
-            System.err.println("✗ Failed to add visitors: " + e.getMessage());
-            return false;
+        } catch (SQLException e) {
+            System.err.println("✗ Error getting total visitors: " + e.getMessage());
         }
+        return 0;
     }
 
-    // Add product sale
-    public boolean addProductSale(long productPrice) {
+    // Get total FnB revenue (all time)
+    public long getTotalFnbRevenue() {
         try {
-            getTodayData().addProductSale(productPrice);
-            System.out.println("✓ Product sale added. Price: Rp " + String.format("%,d", productPrice));
-            return true;
-        } catch (Exception e) {
-            System.err.println("✗ Failed to add product sale: " + e.getMessage());
-            return false;
+            String query = "SELECT SUM(total_price) as total FROM " + FNB_SALES_TABLE;
+            ResultSet rs = DatabaseManager.executeQuery(query);
+
+            if (rs.next()) {
+                return rs.getLong("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("✗ Error getting total FnB revenue: " + e.getMessage());
         }
+        return 0;
     }
 
-    // Add custom income
-    public boolean addIncome(long amount) {
+    // Get total daily visitor revenue (all time)
+    public long getTotalDailyVisitorRevenue() {
         try {
-            getTodayData().addIncome(amount);
-            System.out.println("✓ Income added. Amount: Rp " + String.format("%,d", amount));
-            return true;
-        } catch (Exception e) {
-            System.err.println("✗ Failed to add income: " + e.getMessage());
-            return false;
-        }
-    }
+            String query = "SELECT SUM(visitor_income) as total FROM " + VISITORS_TABLE;
+            ResultSet rs = DatabaseManager.executeQuery(query);
 
-    // Get total visitors this week
-    public int getWeeklyVisitors() {
-        int total = 0;
-        LocalDate today = LocalDate.now();
-
-        for (int i = 0; i < 7; i++) {
-            LocalDate date = today.minusDays(i);
-            Dashboard data = dashboardStorage.get(date);
-            if (data != null) {
-                total += data.getVisitorCount();
+            if (rs.next()) {
+                return rs.getLong("total");
             }
+        } catch (SQLException e) {
+            System.err.println("✗ Error getting total daily visitor revenue: " + e.getMessage());
         }
-
-        return total;
-    }
-
-    // Get total income this week
-    public long getWeeklyIncome() {
-        long total = 0;
-        LocalDate today = LocalDate.now();
-
-        for (int i = 0; i < 7; i++) {
-            LocalDate date = today.minusDays(i);
-            Dashboard data = dashboardStorage.get(date);
-            if (data != null) {
-                total += data.getDailyIncome();
-            }
-        }
-
-        return total;
-    }
-
-    // Get total products sold this week
-    public int getWeeklyProductsSold() {
-        int total = 0;
-        LocalDate today = LocalDate.now();
-
-        for (int i = 0; i < 7; i++) {
-            LocalDate date = today.minusDays(i);
-            Dashboard data = dashboardStorage.get(date);
-            if (data != null) {
-                total += data.getProductsSold();
-            }
-        }
-
-        return total;
-    }
-
-    // Get total visitors this month
-    public int getMonthlyVisitors() {
-        int total = 0;
-        LocalDate today = LocalDate.now();
-        int daysInMonth = today.lengthOfMonth();
-
-        for (int i = 0; i < daysInMonth; i++) {
-            LocalDate date = today.minusDays(i);
-            if (date.getMonth() != today.getMonth()) break;
-
-            Dashboard data = dashboardStorage.get(date);
-            if (data != null) {
-                total += data.getVisitorCount();
-            }
-        }
-
-        return total;
-    }
-
-    // Get total income this month
-    public long getMonthlyIncome() {
-        long total = 0;
-        LocalDate today = LocalDate.now();
-        int daysInMonth = today.lengthOfMonth();
-
-        for (int i = 0; i < daysInMonth; i++) {
-            LocalDate date = today.minusDays(i);
-            if (date.getMonth() != today.getMonth()) break;
-
-            Dashboard data = dashboardStorage.get(date);
-            if (data != null) {
-                total += data.getDailyIncome();
-            }
-        }
-
-        return total;
-    }
-
-    // Print dashboard summary
-    public void printDashboardSummary() {
-        System.out.println("\n========== DASHBOARD SUMMARY ==========");
-        System.out.println("Date: " + LocalDate.now());
-        System.out.println("Today's Visitors: " + todayData.getVisitorCount());
-        System.out.println("Today's Products Sold: " + todayData.getProductsSold());
-        System.out.println("Today's Income: " + todayData.getFormattedIncome());
-        System.out.println("---------------------------------------");
-        System.out.println("Weekly Visitors: " + getWeeklyVisitors());
-        System.out.println("Weekly Income: Rp " + String.format("%,d", getWeeklyIncome()));
-        System.out.println("Monthly Visitors: " + getMonthlyVisitors());
-        System.out.println("Monthly Income: Rp " + String.format("%,d", getMonthlyIncome()));
-        System.out.println("=======================================\n");
+        return 0;
     }
 }

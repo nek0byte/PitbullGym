@@ -93,7 +93,7 @@ public class Dashboard {
         return beverageRevenue.get();
     }
     
-    public void setBeverageRevenue(long revenue) {
+    public void setFnBRevenue(long revenue) {
         this.beverageRevenue.set(revenue);
     }
     
@@ -130,7 +130,7 @@ public class Dashboard {
         return productsSold.get();
     }
 
-    public void setProductsSold(int count) {
+    public void setFnBSold(int count) {
         this.productsSold.set(count);
     }
 

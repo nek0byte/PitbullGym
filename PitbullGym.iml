@@ -10,5 +10,7 @@
     <orderEntry type="library" exported="" name="javafx.base" level="project" />
     <orderEntry type="library" exported="" name="JavaFX" level="application" />
     <orderEntry type="library" name="fontawesomefx-8.2" level="project" />
+    <orderEntry type="library" name="fontawesomefx-8.3" level="project" />
+    <orderEntry type="library" name="mysql-connector-j-9.4.0" level="project" />
   </component>
 </module>

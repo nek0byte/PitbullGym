@@ -110,13 +110,13 @@
                             </children>
                         </VBox>
 
-                        <!-- Beverage Sales System Module -->
+                        <!-- FnB Sales System Module -->
                         <VBox alignment="TOP_CENTER" maxWidth="600.0" minWidth="300.0" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.95); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                             <children>
                         <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="539.0">
                            <children>
                               <FontAwesomeIcon fill="#ff9800" glyphName="COFFEE" size="2.5em" />
-                                      <Label contentDisplay="CENTER" style="-fx-text-fill: #FF9800; -fx-font-weight: bold; -fx-font-size: 22;" text="Beverage Sales System" textAlignment="CENTER">
+                                      <Label contentDisplay="CENTER" style="-fx-text-fill: #FF9800; -fx-font-weight: bold; -fx-font-size: 22;" text="FnB Sales System" textAlignment="CENTER">
                                           <font>
                                               <Font name="System Bold" size="22.0" />
                                           </font>
@@ -127,15 +127,15 @@
                            </children>
                         </HBox>
                                 
-                                <!-- Beverage Revenue Display -->
+                                <!-- FnB Revenue Display -->
                                 <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #FF9800, #F57C00); -fx-background-radius: 15; -fx-padding: 25;">
                                     <children>
-                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Beverage Revenue">
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total FnB Revenue">
                                             <font>
                                                 <Font size="14.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="beverageRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
+                                        <Label fx:id="fnbRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
                                             <font>
                                                 <Font name="System Bold" size="32.0" />
                                             </font>
@@ -143,15 +143,15 @@
                                     </children>
                                 </VBox>
                                 
-                                <!-- Beverages Sold Display -->
+                                <!-- FnBs Sold Display -->
                                 <VBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="127.2" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #9C27B0, #7B1FA2); -fx-background-radius: 15; -fx-padding: 25;">
                                     <children>
-                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Beverages Sold">
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total FnB Sold">
                                             <font>
                                                 <Font size="14.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="totalBeveragesSoldLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="0">
+                                        <Label fx:id="totalFnBsSoldLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="0">
                                             <font>
                                                 <Font name="System Bold" size="48.0" />
                                             </font>
@@ -159,17 +159,17 @@
                                     </children>
                                 </VBox>
                                 
-                                <!-- Beverage Selection -->
+                                <!-- FnB Selection -->
                                 <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label style="-fx-text-fill: #333333; -fx-font-weight: bold; -fx-font-size: 14;" text="Select Beverage:">
+                                        <Label style="-fx-text-fill: #333333; -fx-font-weight: bold; -fx-font-size: 14;" text="Select Items:">
                                             <font>
                                                 <Font name="System Bold" size="14.0" />
                                             </font>
                                         </Label>
-                                        <ComboBox fx:id="beverageCombo" maxWidth="400.0" style="-fx-background-radius: 8; -fx-padding: 10;" HBox.hgrow="ALWAYS" />
+                                        <ComboBox fx:id="FnBCombo" maxWidth="400.0" style="-fx-background-radius: 8; -fx-padding: 10;" HBox.hgrow="ALWAYS" />
                                         
-                                        <Button fx:id="btnConfirmBeverageSale" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="✅ Confirm Sale">
+                                        <Button fx:id="btnConfirmFnBSale" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 15 40 15 40; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="✅ Confirm Sale">
                                             <font>
                                                 <Font name="System Bold" size="16.0" />
                                             </font>
@@ -177,10 +177,10 @@
                                     </children>
                                 </VBox>
                                 
-                                <!-- Beverage Prices Info -->
+                                <!-- FnB Prices Info -->
                                 <VBox spacing="5.0" style="-fx-background-color: rgba(255,152,0,0.1); -fx-background-radius: 10; -fx-padding: 15;">
                                     <children>
-                                        <Label style="-fx-text-fill: #666666; -fx-font-weight: bold; -fx-font-size: 12;" text="Available Beverages:">
+                                        <Label style="-fx-text-fill: #666666; -fx-font-weight: bold; -fx-font-size: 12;" text="Available Items:">
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>

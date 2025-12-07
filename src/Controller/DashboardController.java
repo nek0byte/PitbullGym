@@ -1,7 +1,7 @@
 package Controller;
 
 import DataAccess.DashboardDoA;
-import Model.Beverage;
+import Model.FnB;
 import Model.Dashboard;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,9 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
-import javafx.util.Callback;
-
 
 
 public class DashboardController {
@@ -30,8 +27,8 @@ public class DashboardController {
     private Label dailyVisitorIncomeLabel;
     
     // Labels for Beverage Sales System
-    private Label beverageRevenueLabel;
-    private Label totalBeveragesSoldLabel;
+    private Label fnbRevenueLabel; // dari beverageRevenueLabel
+    private Label totalFnbsSoldLabel; // dari totalBeveragesSoldLabel
     
     // Buttons
     private Button btnAddDailyVisitor;
@@ -39,11 +36,11 @@ public class DashboardController {
     private Button btnRefreshDashboard;
     
     // Beverage selection
-    private ComboBox<Beverage> beverageCombo;
-    private Beverage selectedBeverage;
+    private ComboBox<FnB> fnbCombo; // dari beverageCombo
+    private FnB selectedFnB; // dari selectedBeverage
     
     // Available beverages
-    private List<Beverage> availableBeverages;
+    private List<FnB> availableFnBS;
     
     private DashboardDoA dashboardDAO;
     private Dashboard todayData;
@@ -52,7 +49,7 @@ public class DashboardController {
     public DashboardController() {
         this.dashboardDAO = new DashboardDoA();
         this.todayData = dashboardDAO.getTodayData();
-        initializeBeverages();
+        initializeFnB();
     }
     
     // Set callback to be notified when data changes
@@ -61,14 +58,14 @@ public class DashboardController {
     }
     
     // Initialize available beverages
-    private void initializeBeverages() {
-        availableBeverages = new ArrayList<>();
-        availableBeverages.add(new Beverage("Water", 3000));
-        availableBeverages.add(new Beverage("Pre-Workout", 5000));
-        availableBeverages.add(new Beverage("Whey Protein", 5000));
-        availableBeverages.add(new Beverage("Creatine", 5000));
-        availableBeverages.add(new Beverage("Banana", 3000));
-        availableBeverages.add(new Beverage("Protein Bar", 5000));
+    private void initializeFnB() {
+        availableFnBS = new ArrayList<>();
+        availableFnBS.add(new FnB("Water", 3000));
+        availableFnBS.add(new FnB("Pre-Workout", 5000));
+        availableFnBS.add(new FnB("Whey Protein", 5000));
+        availableFnBS.add(new FnB("Creatine", 5000));
+        availableFnBS.add(new FnB("Banana", 3000));
+        availableFnBS.add(new FnB("Protein Bar", 5000));
     }
 
     // Setup dashboard from node lookup
@@ -79,23 +76,23 @@ public class DashboardController {
         dailyVisitorIncomeLabel = (Label) dashboardNode.lookup("#dailyVisitorIncomeLabel");
         
         // Lookup Beverage Sales System labels
-        beverageRevenueLabel = (Label) dashboardNode.lookup("#beverageRevenueLabel");
-        totalBeveragesSoldLabel = (Label) dashboardNode.lookup("#totalBeveragesSoldLabel");
+        fnbRevenueLabel = (Label) dashboardNode.lookup("#fnbRevenueLabel");
+        totalFnbsSoldLabel = (Label) dashboardNode.lookup("#totalFnBsSoldLabel");
         
         // Lookup buttons
         btnAddDailyVisitor = (Button) dashboardNode.lookup("#btnAddDailyVisitor");
-        btnConfirmBeverageSale = (Button) dashboardNode.lookup("#btnConfirmBeverageSale");
+        btnConfirmBeverageSale = (Button) dashboardNode.lookup("#btnConfirmFnBSale");
         btnRefreshDashboard = (Button) dashboardNode.lookup("#btnRefreshDashboard");
         
         // Lookup beverage combo
-        beverageCombo = (ComboBox<Beverage>) dashboardNode.lookup("#beverageCombo");
+        fnbCombo = (ComboBox<FnB>) dashboardNode.lookup("#FnBCombo");
         
         // Setup beverage combo
-        if (beverageCombo != null) {
-            beverageCombo.getItems().addAll(availableBeverages);
-            beverageCombo.setCellFactory(param -> new ListCell<Beverage>() {
+        if (fnbCombo != null) {
+            fnbCombo.getItems().addAll(availableFnBS);
+            fnbCombo.setCellFactory(param -> new ListCell<FnB>() {
                 @Override
-                protected void updateItem(Beverage item, boolean empty) {
+                protected void updateItem(FnB item, boolean empty) {
                     super.updateItem(item, empty);
                     if (empty || item == null) {
                         setText(null);
@@ -104,9 +101,9 @@ public class DashboardController {
                     }
                 }
             });
-            beverageCombo.setButtonCell(new ListCell<Beverage>() {
+            fnbCombo.setButtonCell(new ListCell<FnB>() {
                 @Override
-                protected void updateItem(Beverage item, boolean empty) {
+                protected void updateItem(FnB item, boolean empty) {
                     super.updateItem(item, empty);
                     if (empty || item == null) {
                         setText("Select Beverage");
@@ -115,8 +112,8 @@ public class DashboardController {
                     }
                 }
             });
-            beverageCombo.setOnAction(e -> {
-                selectedBeverage = beverageCombo.getValue();
+            fnbCombo.setOnAction(e -> {
+                selectedFnB = fnbCombo.getValue();
             });
         }
 
@@ -125,7 +122,7 @@ public class DashboardController {
             btnAddDailyVisitor.setOnAction(e -> addDailyVisitor());
         }
         if (btnConfirmBeverageSale != null) {
-            btnConfirmBeverageSale.setOnAction(e -> confirmBeverageSale());
+            btnConfirmBeverageSale.setOnAction(e -> confirmFnbSale());
             btnConfirmBeverageSale.setDisable(true);
         }
         if (btnRefreshDashboard != null) {
@@ -133,8 +130,8 @@ public class DashboardController {
         }
         
         // Enable confirm button when beverage is selected
-        if (beverageCombo != null && btnConfirmBeverageSale != null) {
-            beverageCombo.valueProperty().addListener((obs, oldVal, newVal) -> {
+        if (fnbCombo != null && btnConfirmBeverageSale != null) {
+            fnbCombo.valueProperty().addListener((obs, oldVal, newVal) -> {
                 btnConfirmBeverageSale.setDisable(newVal == null);
             });
         }
@@ -164,11 +161,11 @@ public class DashboardController {
         }
         
         // Update Beverage Sales System
-        if (beverageRevenueLabel != null) {
-            beverageRevenueLabel.setText(String.format("Rp %,d", todayData.getBeverageRevenue()));
+        if (fnbRevenueLabel != null) {
+            fnbRevenueLabel.setText(String.format("Rp %,d", todayData.getBeverageRevenue()));
         }
-        if (totalBeveragesSoldLabel != null) {
-            totalBeveragesSoldLabel.setText(String.valueOf(todayData.getProductsSold()));
+        if (totalFnbsSoldLabel != null) {
+            totalFnbsSoldLabel.setText(String.valueOf(todayData.getProductsSold()));
         }
 
         System.out.println("✓ Dashboard refreshed");
@@ -187,24 +184,23 @@ public class DashboardController {
     }
 
     // Confirm beverage sale
-    private void confirmBeverageSale() {
-        if (selectedBeverage == null) {
-            showAlert(Alert.AlertType.WARNING, "Warning", "Please select a beverage first!");
+    private void confirmFnbSale() {
+        if (selectedFnB == null) {
+            showAlert(Alert.AlertType.WARNING, "Warning", "Please select an FnB item first!");
             return;
         }
-        
-        if (dashboardDAO.addBeverageSale(selectedBeverage.getName(), selectedBeverage.getPrice())) {
+
+        if (dashboardDAO.addFnbSale(selectedFnB.getName(), selectedFnB.getPrice())) {
             refreshDashboard();
-            notifyDataChanged(); // Notify analytics to refresh
-            showAlert(Alert.AlertType.INFORMATION, "Success", 
-                    "Beverage sale confirmed!\n" + selectedBeverage.getName() + 
-                    " - Rp " + String.format("%,d", selectedBeverage.getPrice()));
-            
-            // Reset selection
-            beverageCombo.setValue(null);
-            selectedBeverage = null;
+            notifyDataChanged();
+            showAlert(Alert.AlertType.INFORMATION, "Success",
+                    "FnB sale confirmed!\n" + selectedFnB.getName() +
+                            " - Rp " + String.format("%,d", selectedFnB.getPrice()));
+
+            fnbCombo.setValue(null);
+            selectedFnB = null;
         } else {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add beverage sale!");
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add FnB sale!");
         }
     }
     

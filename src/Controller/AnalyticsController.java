@@ -7,14 +7,14 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 
 public class AnalyticsController {
-    
+
     private Label totalMembersLabel;
     private Label totalDailyVisitorsLabel;
     private Label totalSubscriptionRevenueLabel;
     private Label totalDailyVisitorRevenueLabel;
-    private Label totalBeverageRevenueLabel;
+    private Label totalFnbRevenueLabel;
     private Label combinedTotalRevenueLabel;
-    
+
     private DashboardDoA dashboardDAO;
     private MemberDoA memberDAO;
 
@@ -30,9 +30,9 @@ public class AnalyticsController {
         totalDailyVisitorsLabel = (Label) analyticsNode.lookup("#totalDailyVisitorsLabel");
         totalSubscriptionRevenueLabel = (Label) analyticsNode.lookup("#totalSubscriptionRevenueLabel");
         totalDailyVisitorRevenueLabel = (Label) analyticsNode.lookup("#totalDailyVisitorRevenueLabel");
-        totalBeverageRevenueLabel = (Label) analyticsNode.lookup("#totalBeverageRevenueLabel");
+        totalFnbRevenueLabel = (Label) analyticsNode.lookup("#totalFnBRevenueLabel");
         combinedTotalRevenueLabel = (Label) analyticsNode.lookup("#combinedTotalRevenueLabel");
-        
+
         // Initial load
         refreshAnalytics();
     }
@@ -44,47 +44,41 @@ public class AnalyticsController {
             int totalMembers = memberDAO.getTotalMembers();
             totalMembersLabel.setText(String.valueOf(totalMembers));
         }
-        
-        // Total daily visitors (all time - sum of all daily visitor counts)
+
+        // Total daily visitors (all time)
         if (totalDailyVisitorsLabel != null) {
-            // For now, we'll use today's data. In a real system, you'd sum all historical data
-            Dashboard todayData = dashboardDAO.getTodayData();
-            int totalVisitors = todayData.getVisitorCount(); // This would be sum of all time in production
+            int totalVisitors = dashboardDAO.getTotalVisitors();
             totalDailyVisitorsLabel.setText(String.valueOf(totalVisitors));
         }
-        
+
         // Total subscription revenue (from members)
         if (totalSubscriptionRevenueLabel != null) {
-            // Calculate based on member plans
-            // Monthly: 150k, Special: 650k
             long subscriptionRevenue = calculateSubscriptionRevenue();
             totalSubscriptionRevenueLabel.setText(String.format("Rp %,d", subscriptionRevenue));
         }
-        
+
         // Total daily visitor revenue (all time)
         if (totalDailyVisitorRevenueLabel != null) {
-            Dashboard todayData = dashboardDAO.getTodayData();
-            long dailyVisitorRevenue = todayData.getDailyVisitorIncome(); // Would sum all time in production
+            long dailyVisitorRevenue = dashboardDAO.getTotalDailyVisitorRevenue();
             totalDailyVisitorRevenueLabel.setText(String.format("Rp %,d", dailyVisitorRevenue));
         }
-        
-        // Total beverage revenue (all time)
-        if (totalBeverageRevenueLabel != null) {
-            long beverageRevenue = dashboardDAO.getTotalBeverageRevenue();
-            totalBeverageRevenueLabel.setText(String.format("Rp %,d", beverageRevenue));
+
+        // Total FnB revenue (all time) - UPDATE NAMA
+        if (totalFnbRevenueLabel != null) { // dari totalBeverageRevenueLabel
+            long fnbRevenue = dashboardDAO.getTotalFnbRevenue();
+            totalFnbRevenueLabel.setText(String.format("Rp %,d", fnbRevenue));
         }
-        
+
         // Combined total revenue
         if (combinedTotalRevenueLabel != null) {
             long subscriptionRevenue = calculateSubscriptionRevenue();
-            Dashboard todayData = dashboardDAO.getTodayData();
-            long dailyVisitorRevenue = todayData.getDailyVisitorIncome();
-            long beverageRevenue = dashboardDAO.getTotalBeverageRevenue();
-            long combined = subscriptionRevenue + dailyVisitorRevenue + beverageRevenue;
+            long dailyVisitorRevenue = dashboardDAO.getTotalDailyVisitorRevenue();
+            long fnbRevenue = dashboardDAO.getTotalFnbRevenue();
+            long combined = subscriptionRevenue + dailyVisitorRevenue + fnbRevenue;
             combinedTotalRevenueLabel.setText(String.format("Rp %,d", combined));
         }
     }
-    
+
     // Calculate subscription revenue from members
     private long calculateSubscriptionRevenue() {
         long revenue = 0;

@@ -114,16 +114,16 @@
                                     </children>
                                 </VBox>
 
-                                <!-- Total Beverage Revenue Card -->
+                                <!-- Total FnB Revenue Card -->
                                 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="227.2" prefWidth="400.0" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #E91E63, #C2185B); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <FontAwesomeIcon fill="white" glyphName="COFFEE" size="48" />  <!-- Icon FontAwesome untuk Beverage -->
-                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total Beverage Revenue">
+                                        <FontAwesomeIcon fill="white" glyphName="COFFEE" size="48" />
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: bold;" text="Total FnB Revenue">
                                             <font>
                                                 <Font size="16.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="totalBeverageRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
+                                        <Label fx:id="totalFnBRevenueLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Rp 0">
                                             <font>
                                                 <Font name="System Bold" size="28.0" />
                                             </font>

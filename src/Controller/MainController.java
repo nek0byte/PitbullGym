@@ -30,18 +30,6 @@ public class MainController {
     private javafx.scene.control.Button btnMember;
 
     // ============================================
-    // FXML Fields - Price Cards
-    // ============================================
-    @FXML
-    private StackPane specialCard;
-    @FXML
-    private StackPane monthlyCard;
-    @FXML
-    private StackPane dailyCard;
-
-    private StackPane selectedCard = null;
-
-    // ============================================
     // Controllers
     // ============================================
     private MemberController membershipController;
@@ -60,16 +48,11 @@ public class MainController {
         membershipController = new MemberController();
         dashboardController = new DashboardController();
 
-        // Setup price cards hover effects
-        if (specialCard != null) setupHoverEffect(specialCard);
-        if (monthlyCard != null) {
-            setupHoverEffect(monthlyCard);
-            setupPulseAnimation();
-        }
-        if (dailyCard != null) setupHoverEffect(dailyCard);
-
         // Setup auto-refresh status setiap menit
         startStatusRefreshTimer();
+
+        // Setup Button sidebar
+        updateSidebarActive(null);
     }
 
     // Auto-refresh membership status setiap menit
@@ -84,124 +67,6 @@ public class MainController {
         );
         statusRefreshTimeline.setCycleCount(Timeline.INDEFINITE);
         statusRefreshTimeline.play();
-    }
-
-    // ============================================
-    // Price Card Methods
-    // ============================================
-    private void setupPulseAnimation() {
-        if (monthlyCard == null) return;
-
-        ScaleTransition pulse = new ScaleTransition(Duration.millis(1500), monthlyCard);
-        pulse.setFromX(1.0);
-        pulse.setFromY(1.0);
-        pulse.setToX(1.03);
-        pulse.setToY(1.03);
-        pulse.setCycleCount(Timeline.INDEFINITE);
-        pulse.setAutoReverse(true);
-        pulse.play();
-    }
-
-    private void setupHoverEffect(StackPane card) {
-        if (card == null) return;
-
-        card.setOnMouseEntered(event -> {
-            if (selectedCard != card) {
-                ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), card);
-                scaleUp.setToX(1.08);
-                scaleUp.setToY(1.08);
-                scaleUp.play();
-            }
-        });
-
-        card.setOnMouseExited(event -> {
-            if (selectedCard != card) {
-                ScaleTransition scaleDown = new ScaleTransition(Duration.millis(200), card);
-                scaleDown.setToX(1.0);
-                scaleDown.setToY(1.0);
-                scaleDown.play();
-            }
-        });
-    }
-
-    @FXML
-    private void selectSpecial(MouseEvent event) {
-        if (specialCard != null) {
-            System.out.println("Special card clicked!");
-            selectCard(specialCard, "Special", "650k/month");
-        }
-    }
-
-    @FXML
-    private void selectMonthly(MouseEvent event) {
-        if (monthlyCard != null) {
-            System.out.println("Monthly card clicked!");
-            selectCard(monthlyCard, "Monthly", "150k/month");
-        }
-    }
-
-    @FXML
-    private void selectDaily(MouseEvent event) {
-        if (dailyCard != null) {
-            System.out.println("Daily card clicked!");
-            selectCard(dailyCard, "Daily", "10k/day");
-        }
-    }
-
-    private void selectCard(StackPane card, String planName, String price) {
-        if (card == null) {
-            System.out.println("ERROR: Card is null!");
-            return;
-        }
-
-        if (selectedCard != null && selectedCard != card) {
-            resetCardStyle(selectedCard);
-        }
-
-        selectedCard = card;
-        highlightSelectedCard(card);
-
-        System.out.println("=================================");
-        System.out.println("Selected Plan: " + planName);
-        System.out.println("Price: " + price);
-        System.out.println("=================================");
-    }
-
-    private void highlightSelectedCard(StackPane card) {
-        if (card == null || card.getChildren().isEmpty()) return;
-
-        card.getStyleClass().add("selected");
-
-        VBox vbox = (VBox) card.getChildren().get(0);
-        String currentStyle = vbox.getStyle();
-
-        if (currentStyle.contains("-fx-border-color")) {
-            currentStyle = currentStyle.replaceAll("-fx-border-color:[^;]+;", "-fx-border-color: #2f7d32;");
-            currentStyle = currentStyle.replaceAll("-fx-border-width:[^;]+;", "-fx-border-width: 4;");
-        } else {
-            currentStyle += "; -fx-border-color: #2f7d32; -fx-border-width: 4;";
-        }
-
-        vbox.setStyle(currentStyle);
-    }
-
-    private void resetCardStyle(StackPane card) {
-        if (card == null || card.getChildren().isEmpty()) return;
-
-        card.getStyleClass().remove("selected");
-
-        VBox vbox = (VBox) card.getChildren().get(0);
-        String currentStyle = vbox.getStyle();
-
-        if (card == specialCard || card == dailyCard) {
-            currentStyle = currentStyle.replaceAll("-fx-border-color:[^;]+;", "-fx-border-color: rgba(0,0,0,0.06);");
-            currentStyle = currentStyle.replaceAll("-fx-border-width:[^;]+;", "-fx-border-width: 2;");
-        } else if (card == monthlyCard) {
-            currentStyle = currentStyle.replaceAll("-fx-border-color:[^;]+;", "-fx-border-color: rgba(247,181,0,0.35);");
-            currentStyle = currentStyle.replaceAll("-fx-border-width:[^;]+;", "-fx-border-width: 2;");
-        }
-
-        vbox.setStyle(currentStyle);
     }
 
     // ============================================
@@ -246,30 +111,6 @@ public class MainController {
                 membershipController.setupMemberTable(memberNode);
                 membershipController.setupMemberControls(memberNode);
                 membershipController.loadMemberData();
-            }
-        });
-    }
-
-    public void aboutAct(ActionEvent actionEvent) {
-        setMainPane("/resources/fxml/About.fxml");
-    }
-
-    public void priceAct(ActionEvent actionEvent) {
-        setMainPane("/resources/fxml/Price.fxml");
-
-        // Setup background image binding after loading
-        Platform.runLater(() -> {
-            Node priceNode = mainPane.getChildren().isEmpty() ? null : mainPane.getChildren().get(0);
-            if (priceNode != null) {
-                // Setup background image binding
-                ImageView backgroundImage = (ImageView) priceNode.lookup("#priceBackgroundImage");
-
-                if (backgroundImage != null) {
-                    // Bind ke ukuran mainPane (StackPane parent)
-                    backgroundImage.fitWidthProperty().bind(mainPane.widthProperty());
-                    backgroundImage.fitHeightProperty().bind(mainPane.heightProperty());
-                    backgroundImage.setPreserveRatio(false);
-                }
             }
         });
     }
@@ -335,7 +176,16 @@ public class MainController {
     private void updateSidebarActive(String activeButtonId) {
         String activeStyle = "-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14;";
         String inactiveStyle = "-fx-background-color: transparent; -fx-text-fill: #333333; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: transparent;";
-        
+
+        // Jika activeButtonId null, set semua ke inactive
+        if (activeButtonId == null) {
+            if (btnDashboard != null) btnDashboard.setStyle(inactiveStyle);
+            if (btnAnalytics != null) btnAnalytics.setStyle(inactiveStyle);
+            if (btnMember != null) btnMember.setStyle(inactiveStyle);
+            return;
+        }
+
+        // Set berdasarkan button yang aktif
         if (btnDashboard != null) {
             btnDashboard.setStyle(activeButtonId.equals("btnDashboard") ? activeStyle : inactiveStyle);
         }
