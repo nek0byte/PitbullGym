@@ -1,27 +1,20 @@
-# PitbullGym - Member Management System
+# PitbullGym - Member Management System for Pitbull Gym
 
-> A JavaFX-based gym management application with MySQL database and real-time live search functionality.
+A Gym management application
 
-## 🎯 Overview
+### Key Features 
 
-- **Frontend**: JavaFX (Modern UI dengan FXML)
-- **Backend**: MySQL Database
-- **Language**: Java 25
-- **Database**: MySQL dengan live search
-
-### Key Features ✨
-
-- ✅ **Member Management** - Add, Edit, Delete, View members
-- ✅ **Live Search** - Real-time search by name or phone number
-- ✅ **Membership Analytics** - Dashboard dengan statistics
-- ✅ **Member Card** - Generate member card as PNG image
-- ✅ **Status Tracking** - Active/Expired membership tracking
-- ✅ **Data Persistence** - All data stored in MySQL database
-- ✅ **Responsive UI** - Modern JavaFX interface
+- **Member Management** - Add, Edit, Delete, View members
+- **Live Search** - Real-time search by name or phone number
+- **Membership Analytics** - Dashboard dengan statistics
+- **Member Card** - Generate member card as PNG image
+- **Status Tracking** - Active/Expired membership tracking
+- **Data Persistence** - All data stored in MySQL database
+- **Responsive UI** - Modern JavaFX interface
 
 ---
 
-## 🚀 Quick Start (5 Minutes)
+## Quick Start
 
 ### Prerequisites
 ```
@@ -61,7 +54,7 @@
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 PitbullGym/
@@ -92,19 +85,14 @@ PitbullGym/
 
 ---
 
-## 🎮 Main Features
+## Main Features
 
-### Member List dengan Live Search
-- **Real-time Search** - Type name atau phone, results update instantly
+### Live Search Member List
+- **Real-time Search** - Type name or phone number, results update instantly
 - **Add/Edit/Delete** - Full CRUD operations
-- **Member Card** - Generate dan save as image
+- **Member Card** - Generate and save as image
 - **Statistics** - Total, Active, Expired members count
-
-### Database
-- **MySQL Backend** - Scalable, reliable data storage
-- **Auto Schema** - Tables created automatically
-- **Indexed Columns** - Fast search performance
-
+- 
 ---
 
 ## 🔧 Configuration
@@ -147,11 +135,9 @@ Results updated in TableView
 Statistics refreshed automatically
 ```
 
-**Performance:** ~50-200ms for typical searches
-
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
@@ -162,22 +148,12 @@ Statistics refreshed automatically
 
 ---
 
-## 🔐 Security Features
+## Security Features
 
 ✅ Prepared Statements (SQL injection protection)  
 ✅ Parameter binding (type safety)  
 ✅ UNIQUE constraints (data integrity)  
 ✅ Proper connection handling
-
----
-
-## 🎯 What's New (v1.0)
-
-- Migrated from SQLite to MySQL
-- Implemented real-time live search
-- Added comprehensive documentation
-- Optimized database queries with indexes
-- Full CRUD operations for members
 
 ---
 
