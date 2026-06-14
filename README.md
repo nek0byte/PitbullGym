@@ -23,7 +23,7 @@ A Gym management application
 - **Statistics** - Total, Active, Expired members count
 ---
 
-## 📊 Live Search Implementation
+## Live Search Implementation
 
 ```
 User Types in Search Field
